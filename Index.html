@@ -14,6 +14,7 @@
       padding: 24px;
       background: #121212;
       color: #e0e0e0;
+      transition: background 0.3s ease;
     }
     .logo {
       display: block;
@@ -28,6 +29,8 @@
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.6);
       padding: 20px;
+      position: relative;
+      z-index: 1;
     }
     h1 {
       margin: 0 0 8px;
@@ -103,29 +106,46 @@
       color: #888;
       text-align: center;
     }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 9998;
+      display: none;
+    }
+
     .popup {
       position: fixed;
-      top: 20px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       background: #333;
       color: #fff;
-      padding: 14px 20px;
-      border-radius: 10px;
+      padding: 24px 32px;
+      border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-      font-size: 0.95rem;
+      font-size: 1.1rem;
       opacity: 0;
       transition: opacity 0.5s ease;
       z-index: 9999;
+      max-width: 80%;
+      text-align: center;
     }
     .popup.show {
       opacity: 1;
+    }
+    .overlay.show {
+      display: block;
     }
   </style>
 </head>
 <body>
   <!-- Logo -->
-  <img src="AT&T-NEW-LOGO JPEG.jpg" alt="AT&T Auto Test & Tech Group Logo" class="logo" id="logo" />
+  <img src="YOUR-LOGO-FILENAME.jpeg" alt="AT&T Auto Test & Tech Group Logo" class="logo" id="logo" />
 
   <div class="card">
     <h1>Gross Profit Calculator</h1>
@@ -160,7 +180,8 @@
     </div>
   </div>
 
-  <!-- Popup container -->
+  <!-- Popup and overlay -->
+  <div id="overlay" class="overlay"></div>
   <div id="popup" class="popup"></div>
 
   <script>
@@ -171,6 +192,7 @@
     const gppEl = document.getElementById('gpp');
     const logoEl = document.getElementById('logo');
     const popupEl = document.getElementById('popup');
+    const overlayEl = document.getElementById('overlay');
 
     let clickCount = 0;
     let triggered = false;
@@ -204,22 +226,4 @@
       clickCount++;
       if (clickCount === 5) {
         triggered = true;
-        showPopup("Jiten may not approve R200 for fuel but with me... I will always get your GP approved", () => {
-          setTimeout(() => {
-            showPopup("FYI Randburg Auto Centre is better than Boksburg");
-          }, 2000); // shortened from 4000 to 2000
-        });
-      }
-    });
-
-    function showPopup(message, callback) {
-      popupEl.textContent = message;
-      popupEl.classList.add('show');
-      setTimeout(() => {
-        popupEl.classList.remove('show');
-        if (callback) callback();
-      }, 4000);
-    }
-  </script>
-</body>
-</html>
+        showPopup("Jiten may not approve
