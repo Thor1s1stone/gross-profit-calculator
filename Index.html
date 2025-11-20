@@ -19,6 +19,7 @@
       display: block;
       max-width: 180px;
       margin: 0 auto 20px;
+      cursor: pointer;
     }
     .card {
       max-width: 560px;
@@ -102,11 +103,29 @@
       color: #888;
       text-align: center;
     }
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 9999;
+    }
+    .popup.show {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <!-- Logo -->
-  <img src="AT&T-NEW-LOGO JPEG.jpg" alt="AT&T Auto Test & Tech Group Logo" class="logo" />
+  <img src="YOUR-LOGO-FILENAME.jpeg" alt="AT&T Auto Test & Tech Group Logo" class="logo" id="logo" />
 
   <div class="card">
     <h1>Gross Profit Calculator</h1>
@@ -141,12 +160,20 @@
     </div>
   </div>
 
+  <!-- Popup container -->
+  <div id="popup" class="popup"></div>
+
   <script>
     const salesEl = document.getElementById('sales');
     const costEl = document.getElementById('cost');
     const calcBtn = document.getElementById('calc');
     const gpEl = document.getElementById('gp');
     const gppEl = document.getElementById('gpp');
+    const logoEl = document.getElementById('logo');
+    const popupEl = document.getElementById('popup');
+
+    let clickCount = 0;
+    let triggered = false;
 
     function enableIfReady() {
       const s = parseFloat(salesEl.value);
@@ -171,7 +198,28 @@
         ? 'N/A'
         : percentage.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
     });
+
+    logoEl.addEventListener('click', () => {
+      if (triggered) return;
+      clickCount++;
+      if (clickCount === 5) {
+        triggered = true;
+        showPopup("Jiten may not approve R200 for fuel but with me... I will always get your GP approved", () => {
+          setTimeout(() => {
+            showPopup("FYI Randburg Auto Centre is better than Boksburg");
+          }, 4000);
+        });
+      }
+    });
+
+    function showPopup(message, callback) {
+      popupEl.textContent = message;
+      popupEl.classList.add('show');
+      setTimeout(() => {
+        popupEl.classList.remove('show');
+        if (callback) callback();
+      }, 4000);
+    }
   </script>
 </body>
 </html>
-
