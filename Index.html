@@ -125,16 +125,15 @@
       transform: translate(-50%, -50%);
       background: #333;
       color: #fff;
-      padding: 36px 48px;
-      border-radius: 16px;
+      padding: 24px 32px;
+      border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-      font-size: 1.65rem;
+      font-size: 1.1rem;
       opacity: 0;
       transition: opacity 0.5s ease;
       z-index: 9999;
-      max-width: 90%;
+      max-width: 80%;
       text-align: center;
-      cursor: pointer;
     }
     .popup.show {
       opacity: 1;
@@ -146,7 +145,7 @@
 </head>
 <body>
   <!-- Logo -->
-  <img src="AT&T-NEW-LOGO JPEG.jpg" alt="AT&T Auto Test & Tech Group Logo" class="logo" id="logo" />
+  <img src="YOUR-LOGO-FILENAME.jpeg" alt="AT&T Auto Test & Tech Group Logo" class="logo" id="logo" />
 
   <div class="card">
     <h1>Gross Profit Calculator</h1>
@@ -195,10 +194,8 @@
     const popupEl = document.getElementById('popup');
     const overlayEl = document.getElementById('overlay');
 
-    let logoClickCount = 0;
-    let popupClickCount = 0;
+    let clickCount = 0;
     let triggered = false;
-    let popupClickTimes = [];
 
     function enableIfReady() {
       const s = parseFloat(salesEl.value);
@@ -226,30 +223,16 @@
 
     logoEl.addEventListener('click', () => {
       if (triggered) return;
-      logoClickCount++;
-      if (logoClickCount === 5) {
+      clickCount++;
+      if (clickCount === 5) {
         triggered = true;
-        runEasterEgg();
+        showPopup("Jiten may not approve R200 for fuel but with me... I will always get your GP approved", () => {
+          setTimeout(() => {
+            showPopup("FYI Randburg Auto Centre is better than Boksburg");
+          }, 1000); // shortened to 1 second
+        });
       }
     });
-
-    popupEl.addEventListener('click', () => {
-      const now = Date.now();
-      popupClickTimes.push(now);
-      popupClickTimes = popupClickTimes.filter(t => now - t < 2000); // keep clicks within 2 seconds
-      if (popupClickTimes.length >= 5) {
-        popupClickTimes = [];
-        runEasterEgg();
-      }
-    });
-
-    function runEasterEgg() {
-      showPopup("Jiten may not approve R200 for fuel but with me... I will always get your GP approved", () => {
-        setTimeout(() => {
-          showPopup("FYI Randburg Auto Centre is better than Boksburg");
-        }, 1000);
-      });
-    }
 
     function showPopup(message, callback) {
       popupEl.textContent = message;
@@ -258,4 +241,9 @@
       setTimeout(() => {
         popupEl.classList.remove('show');
         overlayEl.classList.remove('show');
-        if (callback)
+        if (callback) callback();
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
