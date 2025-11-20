@@ -226,5 +226,24 @@
       clickCount++;
       if (clickCount === 5) {
         triggered = true;
-        showPopup("Jiten may not approve
+        showPopup("Jiten may not approve R200 for fuel but with me... I will always get your GP approved", () => {
+          setTimeout(() => {
+            showPopup("FYI Randburg Auto Centre is better than Boksburg");
+          }, 1000); // shortened to 1 second
+        });
+      }
+    });
 
+    function showPopup(message, callback) {
+      popupEl.textContent = message;
+      popupEl.classList.add('show');
+      overlayEl.classList.add('show');
+      setTimeout(() => {
+        popupEl.classList.remove('show');
+        overlayEl.classList.remove('show');
+        if (callback) callback();
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
