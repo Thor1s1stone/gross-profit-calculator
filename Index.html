@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gross Profit Calculator</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; margin: 0; padding: 24px; background: #f7f7fb; }
+    .card { max-width: 560px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); padding: 20px; }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    p.sub { margin: 0 0 16px; color: #555; font-size: 0.95rem; }
+    label { display: block; margin: 14px 0 6px; font-weight: 600; }
+    input { width: 100%; padding: 10px 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    button { margin-top: 16px; width: 100%; padding: 12px; font-size: 1rem; font-weight: 700; border: none; border-radius: 10px; background: #3b82f6; color: white; cursor: pointer; }
+    button:disabled { background: #9db8f9; cursor: not-allowed; }
+    .out { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tile { background: #f0f4ff; border: 1px solid #dbe6ff; border-radius: 10px; padding: 12px; }
+    .label { font-size: 0.85rem; color: #555; margin-bottom: 6px; }
+    .value { font-size: 1.2rem; font-weight: 700; }
+    .footer { margin-top: 18px; font-size: 0.85rem; color: #666; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Gross Profit Calculator</h1>
+    <p class="sub">Enter the sales price and cost price to see gross profit value and percentage.</p>
+
+    <div class="row">
+      <div>
+        <label for="sales">Sales price</label>
+        <input id="sales" type="number" step="0.01" placeholder="e.g. 1299.00" />
+      </div>
+      <div>
+        <label for="cost">Cost price</label>
+        <input id="cost" type="number" step="0.01" placeholder="e.g. 850.00" />
+      </div>
+    </div>
+
+    <button id="calc" disabled>Calculate</button>
+
+    <div class="out">
+      <div class="tile">
+        <div class="label">Gross profit value</div>
+        <div id="gp" class="value">—</div>
+      </div>
+      <div class="tile">
+        <div class="label">Gross profit percentage</div>
+        <div id="gpp" class="value">—</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Formula: Gross profit value = Sales price − Cost price. Gross profit percentage = (Gross profit value ÷ Sales price) × 100.
+    </div>
+  </div>
+
+  <script>
+    const salesEl = document.getElementById('sales');
+    const costEl = document.getElementById('cost');
+    const calcBtn = document.getElementById('calc');
+    const gpEl = document.getElementById('gp');
+    const gppEl = document.getElementById('gpp');
+
+    function enableIfReady() {
+      const s = parseFloat(salesEl.value);
+      const c = parseFloat(costEl.value);
+      calcBtn.disabled = !Number.isFinite(s) || !Number.isFinite(c);
+    }
+
+    salesEl.addEventListener('input', enableIfReady);
+    costEl.addEventListener('input', enableIfReady);
+
+    calcBtn.addEventListener('click', () => {
+      const sales = parseFloat(salesEl.value);
+      const cost = parseFloat(costEl.value);
+
+      if (!Number.isFinite(sales) || !Number.isFinite(cost)) return;
+
+      const grossProfit = sales - cost;
+      const percentage = sales === 0 ? NaN : (grossProfit / sales) * 100;
+
+      gpEl.textContent = grossProfit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      gppEl.textContent = Number.isNaN(percentage)
+        ? 'N/A'
+        : percentage.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+    });
+  </script>
+</body>
+</html>
